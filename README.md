@@ -1,9 +1,6 @@
 # 🍜 เว็บไซต์ร้านอาหารไทย
 
-แอปพลิเคชันเว็บสำหรับสั่งอาหารไทยแบบ Fullstack พัฒนาด้วย Angular frontend และ Spring Boot backend
-
-<img width="1581" height="645" alt="image" src="https://github.com/user-attachments/assets/05be7d42-5f8e-4a15-a5f4-e8e7096cbf0c" />
-
+## แอปพลิเคชันเว็บสำหรับสั่งอาหารไทยแบบ Fullstack พัฒนาด้วย Angular frontend และ Spring Boot backend
 
 ## ✨ ฟีเจอร์หลัก
 
@@ -19,11 +16,7 @@
 
 ## 🏗️ สถาปัตยกรรมระบบ
 
-```
-Frontend (Angular) ←→ Backend (Spring Boot) ←→ Database (MySQL/RDS)
-                              ↓
-                         AWS S3 + CloudFront
-```
+<img width="1581" height="645" alt="image" src="https://github.com/user-attachments/assets/05be7d42-5f8e-4a15-a5f4-e8e7096cbf0c" />
 
 **เทคโนโลยีที่ใช้:**
 - **Frontend**: Angular (TypeScript, RxJS, HttpClient)
@@ -142,7 +135,7 @@ export const environment = {
 3. **รัน Frontend**
 
 ```bash
-ng serve -o
+npm start
 ```
 
 Frontend จะพร้อมใช้งานที่: `http://localhost:4200`
