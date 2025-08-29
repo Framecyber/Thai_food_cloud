@@ -2,39 +2,43 @@
 
 🍜 Thai Food Shop Web
 
-Fullstack Thai food ordering web application.
+Fullstack Thai food ordering web application
+
 Frontend: Angular
+
 Backend: Spring Boot
+
 Database: MySQL (AWS RDS)
+
 Storage: AWS S3 + CloudFront CDN
 
-🎯 Features
+✨ Features
 
-View Thai food menu items
+✅ View Thai food menu items
 
-Search menu by name
+✅ Search menu by name
 
-Add / Edit / Delete menu items (CRUD)
+✅ CRUD (Add / Edit / Delete) menu items
 
-Store food images on AWS S3 (served via CloudFront CDN)
+✅ Store food images on AWS S3 (served via CloudFront CDN)
 
-Backend with Spring Boot + MySQL (AWS RDS)
+✅ Backend with Spring Boot + MySQL (AWS RDS)
 
-Frontend with Angular
+✅ Frontend with Angular
 
 🏗 System Architecture
 
-Frontend: Angular (TypeScript, RxJS, HttpClient)
+Frontend → Angular (TypeScript, RxJS, HttpClient)
 
-Backend: Spring Boot (Java 21, Spring Web, Spring Data JPA)
+Backend → Spring Boot (Java 21, Spring Web, Spring Data JPA)
 
-Database: MySQL (AWS RDS)
+Database → MySQL (AWS RDS)
 
-Storage: AWS S3 for food images
+Storage → AWS S3 for food images
 
-CDN: CloudFront for global image distribution
+CDN → CloudFront for global image distribution
 
-Deployment Options: EC2 Auto Scaling Group or ECS Cluster
+Deployment Options → EC2 Auto Scaling Group or ECS Cluster
 
 📂 Project Structure
 / (repo root)
@@ -50,7 +54,7 @@ Deployment Options: EC2 Auto Scaling Group or ECS Cluster
 
 ⚙️ Backend Configuration
 
-backend/src/main/resources/application.properties:
+📄 backend/src/main/resources/application.properties
 
 server.port=8080
 spring.datasource.url=jdbc:mysql://<RDS_ENDPOINT>:3306/thai_food
@@ -61,21 +65,21 @@ spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 
 🚀 Running Locally
-Backend (Spring Boot)
+▶️ Backend (Spring Boot)
 cd backend
 ./mvnw clean package -DskipTests
 ./mvnw spring-boot:run
 
 
-Test API → http://localhost:8080/api/menu
+API → http://localhost:8080/api/menu
 
-Frontend (Angular)
+▶️ Frontend (Angular)
 cd frontend
 npm install
 ng serve -o
 
 
-App runs on → http://localhost:4200
+App → http://localhost:4200
 
 📡 API Endpoints
 
@@ -89,7 +93,7 @@ POST	/	Add new menu item
 PUT	/{id}	Update menu item
 DELETE	/{id}	Delete menu item
 
-Example POST JSON:
+Example POST JSON
 
 {
   "itemName": "Green Curry",
@@ -101,15 +105,15 @@ Example POST JSON:
 
 🛠 Tech Stack
 
-Frontend: Angular (TypeScript, RxJS, HttpClient)
+🎨 Frontend: Angular (TypeScript, RxJS, HttpClient)
 
-Backend: Java 21, Spring Boot 3.5.x, JPA, Hibernate
+⚡ Backend: Java 21, Spring Boot 3.5.x, JPA, Hibernate
 
-Database: MySQL (AWS RDS)
+🗄 Database: MySQL (AWS RDS)
 
-Cloud: AWS S3 (image storage), CloudFront (CDN)
+☁️ Cloud: AWS S3 (image storage), CloudFront (CDN)
 
-CI/CD: GitHub Actions, Docker, Kubernetes/EC2
+🔄 CI/CD: GitHub Actions, Docker, Kubernetes/EC2
 
 🚢 Deployment
 
@@ -121,7 +125,7 @@ Database → AWS RDS (Multi-AZ recommended for production)
 
 ⚡️ CI/CD with GitHub Actions
 
-ไฟล์ workflow: .github/workflows/deploy.yml
+📄 .github/workflows/deploy.yml
 
 name: CI-CD Deploy ThaiFood Web
 
@@ -198,7 +202,7 @@ jobs:
 
 🧪 Load Testing (k6)
 
-ไฟล์: k6/load-test.js
+📄 k6/load-test.js
 
 import http from "k6/http";
 import { check, sleep } from "k6";
@@ -215,15 +219,19 @@ export default function () {
 }
 
 
-รันโหลดเทสในเครื่อง:
+▶️ Run locally:
 
 k6 run k6/load-test.js
 
 🔧 Troubleshooting
 
-CORS blocked → check CorsConfig.java
+🚫 CORS blocked → check CorsConfig.java
 
-DB connection error → ensure RDS security group allows port 3306
+🛑 DB connection error → ensure RDS security group allows port 3306
+
+❓ Unknown database → manually create thai_food DB in RDS
+
+⚠️ Angular 404 → verify environment.ts points to correct backend API
 
 Unknown database → manually create thai_food DB in RDS
 
