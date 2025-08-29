@@ -1,0 +1,7 @@
+{
+  "/api": {
+    "target": "http://servicebackporpear-env.eba-bvnhpcbc.us-east-1.elasticbeanstalk.com/api",
+    "secure": false,
+    "changeOrigin": true
+  }
+}
