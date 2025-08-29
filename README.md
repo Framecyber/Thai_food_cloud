@@ -2,9 +2,8 @@
 
 แอปพลิเคชันเว็บสำหรับสั่งอาหารไทยแบบ Fullstack พัฒนาด้วย Angular frontend และ Spring Boot backend
 
-http://bucketfontporpear.s3-website-us-east-1.amazonaws.com/auth/login
+<img width="1581" height="645" alt="image" src="https://github.com/user-attachments/assets/05be7d42-5f8e-4a15-a5f4-e8e7096cbf0c" />
 
-<img width="1581" height="645" alt="image" src="https://github.com/user-attachments/assets/748ab23c-c50e-4df5-a37b-a3c14da2cef3" />
 
 ## ✨ ฟีเจอร์หลัก
 
@@ -185,8 +184,26 @@ http://localhost:8080/api/menu
   "createdAt": "2024-01-15T10:30:00Z",
   "updatedAt": "2024-01-15T10:30:00Z"
 }
-
 ```
+
+## 🐳 การ Deploy ด้วย Docker
+
+### ใช้ Docker Compose
+
+```bash
+docker-compose up -d
+```
+
+### สร้าง Docker แบบ Manual
+
+```bash
+# Build แอปพลิเคชัน
+docker build -t thai-food-app .
+
+# รัน Container
+docker run -d -p 8080:8080 --name thai-food-app thai-food-app
+```
+
 ## ☁️ การ Deploy บน AWS
 
 ### 1. ฐานข้อมูล (RDS)
@@ -213,345 +230,60 @@ http://localhost:8080/api/menu
 # Push ไป ECR และ deploy ผ่าน ECS service
 ```
 
-🔄 CI/CD Pipeline with GitHub Actions
-โปรเจคนี้ใช้ GitHub Actions สำหรับ CI/CD pipeline ที่ครบวงจร รองรับการ deploy ทั้ง EC2, ECS และ Elastic Beanstalk
-Pipeline Workflow
-Code Push → Build → Test → Docker Build → Deploy → Load Test
-ไฟล์ GitHub Actions หลัก
-📄 .github/workflows/ci-cd.yml
-yamlname: CI/CD Pipeline - Thai Food Web
+## 🔄 CI/CD Pipeline
 
-on:
-  push:
-    branches: [ "main", "develop" ]
-  pull_request:
-    branches: [ "main" ]
+โปรเจคมี CI/CD อัตโนมัติด้วย GitHub Actions:
 
-env:
-  AWS_REGION: ap-southeast-1
-  ECR_REPOSITORY: thai-food-web
-  EB_APPLICATION_NAME: thai-food-web
-  EB_ENVIRONMENT_NAME: thai-food-web-prod
+1. **Build**: คอมไพล์ Angular frontend และ Spring Boot backend
+2. **Test**: รันการทดสอบ unit tests และ integration tests
+3. **Docker**: สร้างและ push Docker image ไป ECR
+4. **Deploy**: Deploy ไป EC2 หรือ ECS cluster
+5. **Load Test**: รันการทดสอบประสิทธิภาพด้วย k6
 
-jobs:
-  # 1. Build และ Test
-  build-and-test:
-    name: Build and Test
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+### GitHub Secrets ที่จำเป็น
 
-      # Java Setup
-      - name: Set up JDK 21
-        uses: actions/setup-java@v3
-        with:
-          java-version: '21'
-          distribution: 'temurin'
-          cache: maven
+```bash
+AWS_ACCESS_KEY_ID=your_aws_access_key
+AWS_SECRET_ACCESS_KEY=your_aws_secret_key
+EC2_HOST=your_ec2_public_ip
+EC2_SSH_KEY=your_private_key_content
+```
 
-      # Node.js Setup  
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: frontend/package-lock.json
+## 🧪 Load Testing
 
-      # Build Frontend
-      - name: Build Angular Frontend
-        working-directory: ./frontend
-        run: |
-          npm ci
-          npm run test -- --watch=false --browsers=ChromeHeadless
-          npm run build --prod
-
-      # Build Backend
-      - name: Build Spring Boot Backend
-        working-directory: ./backend
-        run: |
-          ./mvnw clean compile
-          ./mvnw test
-          ./mvnw package -DskipTests
-
-      # Upload Artifacts
-      - name: Upload Backend JAR
-        uses: actions/upload-artifact@v3
-        with:
-          name: backend-jar
-          path: backend/target/*.jar
-
-      - name: Upload Frontend Dist
-        uses: actions/upload-artifact@v3
-        with:
-          name: frontend-dist
-          path: frontend/dist/
-
-  # 2. Security Scan
-  security-scan:
-    name: Security Scan
-    runs-on: ubuntu-latest
-    needs: build-and-test
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Run Snyk Security Scan
-        uses: snyk/actions/maven@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --severity-threshold=medium
-          command: test
-
-  # 3. Build Docker Image
-  docker-build:
-    name: Build Docker Image
-    runs-on: ubuntu-latest
-    needs: [build-and-test, security-scan]
-    if: github.ref == 'refs/heads/main'
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Download Build Artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: backend-jar
-          path: backend/target/
-
-      - name: Download Frontend Artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: frontend-dist
-          path: frontend/dist/
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
-
-      - name: Build and Push Docker image to ECR
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          IMAGE_TAG: ${{ github.sha }}
-        run: |
-          # Build Docker image
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
-          
-          # Push images
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
-
-  # 4. Deploy to Elastic Beanstalk
-  deploy-eb:
-    name: Deploy to Elastic Beanstalk
-    runs-on: ubuntu-latest
-    needs: docker-build
-    if: github.ref == 'refs/heads/main'
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Download Backend JAR
-        uses: actions/download-artifact@v3
-        with:
-          name: backend-jar
-          path: backend/target/
-
-      - name: Create Deployment Package
-        run: |
-          cp backend/target/*.jar application.jar
-          zip -r deploy.zip application.jar .ebextensions/ .platform/
-
-      - name: Deploy to Elastic Beanstalk
-        uses: einaregilsson/beanstalk-deploy@v21
-        with:
-          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          application_name: ${{ env.EB_APPLICATION_NAME }}
-          environment_name: ${{ env.EB_ENVIRONMENT_NAME }}
-          version_label: v${{ github.sha }}
-          region: ${{ env.AWS_REGION }}
-          deployment_package: deploy.zip
-          wait_for_deployment: true
-
-  # 5. Alternative: Deploy to ECS
-  deploy-ecs:
-    name: Deploy to ECS (Alternative)
-    runs-on: ubuntu-latest
-    needs: docker-build
-    if: github.ref == 'refs/heads/main' && github.event.inputs.deploy_target == 'ecs'
-
-    steps:
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-
-      - name: Deploy to ECS
-        run: |
-          # Update ECS service to use new image
-          aws ecs update-service \
-            --cluster thai-food-cluster \
-            --service thai-food-service \
-            --force-new-deployment
-
-  # 6. Load Testing
-  load-test:
-    name: Load Testing with k6
-    runs-on: ubuntu-latest
-    needs: [deploy-eb]
-    if: github.ref == 'refs/heads/main'
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Install k6
-        run: |
-          sudo gpg -k
-          sudo gpg --no-default-keyring --keyring /usr/share/keyrings/k6-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
-          echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
-          sudo apt-get update
-          sudo apt-get install k6
-
-      - name: Run Load Tests
-        env:
-          TARGET_URL: ${{ secrets.EB_ENVIRONMENT_URL || 'http://thai-food-web-prod.ap-southeast-1.elasticbeanstalk.com' }}
-        run: |
-          k6 run --env TARGET_URL=$TARGET_URL k6/load-test.js
-
-      - name: Upload Load Test Results
-        uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: load-test-results
-          path: k6-results.json
-
-  # 7. Notification
-  notify:
-    name: Send Notifications
-    runs-on: ubuntu-latest
-    needs: [deploy-eb, load-test]
-    if: always()
-
-    steps:
-      - name: Send Slack Notification
-        uses: 8398a7/action-slack@v3
-        with:
-          status: ${{ job.status }}
-          channel: '#deployments'
-          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
-          fields: repo,message,commit,author,action,eventName,ref,workflow
-        if: always()
-
-      - name: Send Line Notification (สำหรับทีมไทย)
-        run: |
-          curl -X POST https://notify-api.line.me/api/notify \
-            -H "Authorization: Bearer ${{ secrets.LINE_TOKEN }}" \
-            -F "message=🚀 Thai Food Web deployed successfully! 
-            Environment: Production
-            Commit: ${{ github.sha }}
-            Status: ${{ job.status }}"
-        if: success()
-GitHub Secrets ที่จำเป็น
-ตั้งค่า Secrets ใน GitHub Repository Settings:
-bash# AWS Configuration
-AWS_ACCESS_KEY_ID=AKIA...
-AWS_SECRET_ACCESS_KEY=...
-AWS_REGION=ap-southeast-1
-
-# Elastic Beanstalk
-EB_APPLICATION_NAME=thai-food-web
-EB_ENVIRONMENT_NAME=thai-food-web-prod
-EB_ENVIRONMENT_URL=http://thai-food-web-prod.ap-southeast-1.elasticbeanstalk.com
-
-# Database
-DB_HOST=your-rds-endpoint.amazonaws.com
-DB_USERNAME=admin
-DB_PASSWORD=your-secure-password
-
-# Notifications
-SLACK_WEBHOOK=https://hooks.slack.com/services/...
-LINE_TOKEN=your-line-notify-token
-
-# Security Scanning
-SNYK_TOKEN=your-snyk-token
-Manual Deployment Triggers
-สร้างไฟล์ .github/workflows/manual-deploy.yml สำหรับ manual deployment:
-yamlname: Manual Deployment
-
-on:
-  workflow_dispatch:
-    inputs:
-      environment:
-        description: 'Environment to deploy'
-        required: true
-        default: 'staging'
-        type: choice
-        options:
-          - staging
-          - production
-      deploy_target:
-        description: 'Deployment target'
-        required: true
-        default: 'elastic-beanstalk'
-        type: choice
-        options:
-          - elastic-beanstalk
-          - ecs
-          - ec2
-      run_load_test:
-        description: 'Run load tests after deployment'
-        required: false
-        default: true
-        type: boolean
-
-jobs:
-  deploy:
-    name: Manual Deployment
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Echo Deployment Parameters
-        run: |
-          echo "Deploying to: ${{ github.event.inputs.environment }}"
-          echo "Target: ${{ github.event.inputs.deploy_target }}"
-          echo "Load test: ${{ github.event.inputs.run_load_test }}"
-🧪 Load Testing
 รัน k6 load tests เพื่อให้มั่นใจในประสิทธิภาพของแอปพลิเคชัน:
-bash# ติดตั้ง k6
+
+```bash
+# ติดตั้ง k6
 brew install k6  # macOS
 # หรือ
 sudo apt install k6  # Ubuntu
 
 # รัน load test
 k6 run k6/load-test.js
-การกำหนดค่า Load Test:
+```
 
-20 virtual users
-ระยะเวลา 30 วินาที
-เทสต์ endpoint /api/menu
+**การกำหนดค่า Load Test:**
+- 20 virtual users
+- ระยะเวลา 30 วินาที
+- เทสต์ endpoint `/api/menu`
 
-🔧 การแก้ไขปัญหา
-ปัญหาที่พบบ่อย
-ปัญหาวิธีแก้ไขCORS ถูกบล็อคตรวจสอบ CorsConfig.java ใน backendเชื่อมต่อฐานข้อมูลไม่ได้ตรวจสอบว่า RDS security group อนุญาต port 3306ไม่พบฐานข้อมูลสร้างฐานข้อมูล thai_food ใน RDS ด้วยตนเองAngular เกิด 404 errorตรวจสอบว่า environment.ts ชี้ไป backend API ที่ถูกต้องอัปโหลด S3 ไม่สำเร็จตรวจสอบ AWS credentials และสิทธิ์ของ S3 bucket
-คำสั่งสำหรับ Debug
-bash# ตรวจสอบ backend logs
+## 🔧 การแก้ไขปัญหา
+
+### ปัญหาที่พบบ่อย
+
+| ปัญหา | วิธีแก้ไข |
+|-------|----------|
+| **CORS ถูกบล็อค** | ตรวจสอบ `CorsConfig.java` ใน backend |
+| **เชื่อมต่อฐานข้อมูลไม่ได้** | ตรวจสอบว่า RDS security group อนุญาต port 3306 |
+| **ไม่พบฐานข้อมูล** | สร้างฐานข้อมูล `thai_food` ใน RDS ด้วยตนเอง |
+| **Angular เกิด 404 error** | ตรวจสอบว่า `environment.ts` ชี้ไป backend API ที่ถูกต้อง |
+| **อัปโหลด S3 ไม่สำเร็จ** | ตรวจสอบ AWS credentials และสิทธิ์ของ S3 bucket |
+
+### คำสั่งสำหรับ Debug
+
+```bash
+# ตรวจสอบ backend logs
 ./mvnw spring-boot:run --debug
 
 # ตรวจสอบ Angular build
@@ -562,34 +294,52 @@ curl http://localhost:8080/api/menu
 
 # ตรวจสอบ Docker container logs
 docker logs thai-food-app
-🤝 การมีส่วนร่วม
+```
 
-Fork repository นี้
-สร้าง feature branch (git checkout -b feature/amazing-feature)
-Commit การเปลี่ยนแปลง (git commit -m 'Add some amazing feature')
-Push ไป branch (git push origin feature/amazing-feature)
-เปิด Pull Request
+## 🤝 การมีส่วนร่วม
 
-📋 ตัวอย่างเมนูอาหารไทย
-ชื่อเมนูราคาคำอธิบายผัดไทย฿120เส้นจันท์ผัดกุ้งสด รสชาติดั้งเดิมแกงเขียวหวานไก่฿95แกงเขียวหวานไก่สูตรโบราณส้มตำไทย฿80ส้มตำใส่ถั่วฝักยาว มะเขือเทศต้มยำกุ้ง฿150ต้มยำกุ้งน้ำใส รสเปรี้ยวจี๊ดข้าวผัดกุ้ง฿110ข้าวผัดกุ้งสับปะรดมะม่วงข้าวเหนียว฿85ขนมหวานไทยคลาสสิค
-📝 ไลเซนส์
-โปรเจคนี้อยู่ภายใต้ MIT License - ดูไฟล์ LICENSE สำหรับรายละเอียด
-📞 ติดต่อสนับสนุน
+1. Fork repository นี้
+2. สร้าง feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit การเปลี่ยนแปลง (`git commit -m 'Add some amazing feature'`)
+4. Push ไป branch (`git push origin feature/amazing-feature`)
+5. เปิด Pull Request
+
+## 📋 ตัวอย่างเมนูอาหารไทย
+
+| ชื่อเมนู | ราคา | คำอธิบาย |
+|---------|------|----------|
+| ผัดไทย | ฿120 | เส้นจันท์ผัดกุ้งสด รสชาติดั้งเดิม |
+| แกงเขียวหวานไก่ | ฿95 | แกงเขียวหวานไก่สูตรโบราณ |
+| ส้มตำไทย | ฿80 | ส้มตำใส่ถั่วฝักยาว มะเขือเทศ |
+| ต้มยำกุ้ง | ฿150 | ต้มยำกุ้งน้ำใส รสเปรี้ยวจี๊ด |
+| ข้าวผัดกุ้ง | ฿110 | ข้าวผัดกุ้งสับปะรด |
+| มะม่วงข้าวเหนียว | ฿85 | ขนมหวานไทยคลาสสิค |
+
+## 📝 ไลเซนส์
+
+โปรเจคนี้อยู่ภายใต้ MIT License - ดูไฟล์ [LICENSE](LICENSE) สำหรับรายละเอียด
+
+## 📞 ติดต่อสนับสนุน
+
 สำหรับการสนับสนุน ติดต่อ your-email@example.com หรือสร้าง issue ใน repository นี้
-🌟 Contributors
+
+## 🌟 Contributors
+
 ขอบคุณผู้ที่มีส่วนร่วมในโปรเจคนี้:
 
-@yourusername - ผู้พัฒนาหลัก
-@contributor1 - Frontend Developer
-@contributor2 - Backend Developer
+- [@yourusername](https://github.com/yourusername) - ผู้พัฒนาหลัก
+- [@contributor1](https://github.com/contributor1) - Frontend Developer
+- [@contributor2](https://github.com/contributor2) - Backend Developer
 
-📊 สถิติการใช้งาน
+## 📊 สถิติการใช้งาน
 
-⭐ Stars: Show Image
-🍴 Forks: Show Image
-🐛 Issues: Show Image
-📦 Version: Show Image
+- ⭐ Stars: ![GitHub Repo stars](https://img.shields.io/github/stars/yourusername/thai-food-web)
+- 🍴 Forks: ![GitHub forks](https://img.shields.io/github/forks/yourusername/thai-food-web)
+- 🐛 Issues: ![GitHub issues](https://img.shields.io/github/issues/yourusername/thai-food-web)
+- 📦 Version: ![GitHub package.json version](https://img.shields.io/github/package-json/v/yourusername/thai-food-web)
 
+---
 
-สร้างด้วย ❤️ สำหรับคนรักอาหารไทย
-อย่าลืม Star ⭐ ถ้าคุณชอบโปรเจคนี้นะครับ!
+**สร้างด้วย ❤️ สำหรับคนรักอาหารไทย**
+
+*อย่าลืม Star ⭐ ถ้าคุณชอบโปรเจคนี้นะครับ!*
