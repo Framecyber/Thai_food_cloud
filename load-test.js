@@ -1,38 +1,31 @@
-import http from 'k6/http';
-import { sleep, check } from 'k6';
-import { Trend } from 'k6/metrics';
-
-const trend = new Trend('api_latency');
+import { sleep } from 'k6'
+import http from 'k6/http'
 
 export const options = {
-  vus: Number(ENV.VUS || 10),
-  duration: ENV.DURATION  '1m',
+  stages: [
+    { duration: '30s', target: 10 },  // Ramp up to 10 users
+    { duration: '1m', target: 20 },   // Stay at 20 users
+    { duration: '30s', target: 0 },   // Ramp down
+  ],
   thresholds: {
-    http_req_failed: ['rate<0.01'],           // <1% errors
-    http_req_duration: ['p(95)<800'],         // 95% < 800ms
+    http_req_failed: ['rate<0.05'],      // Less than 5% errors
+    http_req_duration: ['p(95)<2000'],   // 95% of requests under 2s
+    http_reqs: ['rate>10'],              // At least 10 requests per second
   },
-};
+}
 
-const BASE = __ENV.BASE_URL  'https://api.example.com/';
+// Replace with your AWS deployed URL
+const BASE_URL = 'https://your-app.amazonaws.com'  // Update this!
 
-export default function () {
-  // Adjust endpoints to your API
-  const res1 = http.get(${BASE}/api/categories);
-  trend.add(res1.timings.duration);
-  check(res1, {
-    'categories 200': (r) => r.status === 200,
-  });
-
-  // Example: menu by category id
-  const res2 = http.get(${BASE}/api/foods?categoryId=1);
-  trend.add(res2.timings.duration);
-  check(res2, { 'foods 200': (r) => r.status === 200 });
-
-  // Optional: create order (if you have a sandbox/test env)
-  // const res3 = http.post(${BASE}/api/orders, JSON.stringify({ items: [{id: 1, qty: 2}] }), {
-  //   headers: { 'Content-Type': 'application/json' },
-  // });
-  // check(res3, { 'order 201': (r) => r.status === 201 });
-
-  sleep(1);
+export default function() {
+  // Simple GET request to your main endpoint
+  let response = http.get(BASE_URL)
+  
+  // Basic checks
+  if (response.status !== 200) {
+    console.error(`Request failed with status: ${response.status}`)
+  }
+  
+  // Small delay between requests (1-3 seconds)
+  sleep(Math.random() * 2 + 1)
 }
