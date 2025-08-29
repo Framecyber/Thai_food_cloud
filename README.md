@@ -1,238 +1,317 @@
+# 🍜 Thai Food Shop Web
 
+A fullstack Thai food ordering web application built with Angular frontend and Spring Boot backend.
 
-#🍜 Thai Food Shop Web
+[![CI/CD Pipeline](https://github.com/yourusername/thai-food-web/actions/workflows/deploy.yml/badge.svg)](https://github.com/yourusername/thai-food-web/actions/workflows/deploy.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Fullstack Thai food ordering web application
+## ✨ Features
 
-Frontend: Angular
+- ✅ View Thai food menu items with beautiful UI
+- ✅ Search menu by name with real-time filtering
+- ✅ Full CRUD operations (Add/Edit/Delete) for menu items
+- ✅ Image upload and storage on AWS S3 with CloudFront CDN
+- ✅ Responsive design for mobile and desktop
+- ✅ RESTful API with Spring Boot backend
+- ✅ MySQL database with AWS RDS hosting
+- ✅ CI/CD pipeline with GitHub Actions
+- ✅ Load testing with k6
 
-Backend: Spring Boot
+## 🏗️ System Architecture
 
-Database: MySQL (AWS RDS)
+```
+Frontend (Angular) ←→ Backend (Spring Boot) ←→ Database (MySQL/RDS)
+                              ↓
+                         AWS S3 + CloudFront
+```
 
-Storage: AWS S3 + CloudFront CDN
+**Tech Stack:**
+- **Frontend**: Angular (TypeScript, RxJS, HttpClient)
+- **Backend**: Spring Boot (Java 21, Spring Web, Spring Data JPA)
+- **Database**: MySQL (AWS RDS)
+- **Storage**: AWS S3 for food images
+- **CDN**: CloudFront for global image distribution
+- **Deployment**: EC2 Auto Scaling Group or ECS Cluster
 
-#✨ Features
+## 📂 Project Structure
 
-✅ View Thai food menu items
+```
+thai-food-web/
+├── frontend/                 # Angular application
+│   ├── src/
+│   │   ├── app/
+│   │   ├── assets/
+│   │   └── environments/
+│   ├── angular.json
+│   └── package.json
+├── backend/                  # Spring Boot application
+│   ├── src/main/java/
+│   │   ├── controller/       # REST controllers
+│   │   ├── service/         # Business logic
+│   │   ├── repository/      # JPA repositories
+│   │   ├── model/           # Entity classes
+│   │   ├── dto/             # Data transfer objects
+│   │   └── exception/       # Error handling
+│   ├── src/main/resources/
+│   │   └── application.properties
+│   └── pom.xml
+├── k6/                      # Load testing scripts
+│   └── load-test.js
+├── .github/workflows/       # CI/CD pipeline
+│   └── deploy.yml
+├── docker-compose.yml
+├── Dockerfile
+└── README.md
+```
 
-✅ Search menu by name
+## 🚀 Quick Start
 
-✅ CRUD (Add / Edit / Delete) menu items
+### Prerequisites
 
-✅ Store food images on AWS S3 (served via CloudFront CDN)
+- **Java 21** or higher
+- **Node.js 18+** and npm
+- **MySQL 8.0+** or AWS RDS instance
+- **AWS Account** (for S3 and CloudFront)
 
-✅ Backend with Spring Boot + MySQL (AWS RDS)
+### 1. Clone the Repository
 
-✅ Frontend with Angular
+```bash
+git clone https://github.com/yourusername/thai-food-web.git
+cd thai-food-web
+```
 
-#🏗 System Architecture
+### 2. Backend Setup (Spring Boot)
 
-Frontend → Angular (TypeScript, RxJS, HttpClient)
+1. **Configure Database**
 
-Backend → Spring Boot (Java 21, Spring Web, Spring Data JPA)
+Create `backend/src/main/resources/application.properties`:
 
-Database → MySQL (AWS RDS)
-
-Storage → AWS S3 for food images
-
-CDN → CloudFront for global image distribution
-
-Deployment Options → EC2 Auto Scaling Group or ECS Cluster
-
-#📂 Project Structure
-/ (repo root)
-├── frontend/        # Angular app
-└── backend/         # Spring Boot app
-    ├── controller/  # REST controllers
-    ├── service/     # Business logic
-    ├── repository/  # JPA repositories
-    ├── model/       # Entities
-    ├── dto/         # Data transfer objects
-    ├── exception/   # Error handling
-    └── resources/application.properties
-
-#⚙️ Backend Configuration
-
-📄 backend/src/main/resources/application.properties
-
+```properties
 server.port=8080
-spring.datasource.url=jdbc:mysql://<RDS_ENDPOINT>:3306/thai_food
-spring.datasource.username=admin
-spring.datasource.password=YOUR_PASSWORD
+spring.datasource.url=jdbc:mysql://localhost:3306/thai_food
+spring.datasource.username=your_username
+spring.datasource.password=your_password
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 
-#🚀 Running Locally
-▶️ Backend (Spring Boot)
+# AWS S3 Configuration (Optional)
+aws.s3.bucket=your-s3-bucket-name
+aws.s3.region=ap-southeast-1
+aws.cloudfront.domain=your-cloudfront-domain.cloudfront.net
+```
+
+2. **Run the Backend**
+
+```bash
 cd backend
 ./mvnw clean package -DskipTests
 ./mvnw spring-boot:run
+```
 
+Backend API will be available at: `http://localhost:8080/api/menu`
 
-API → http://localhost:8080/api/menu
+### 3. Frontend Setup (Angular)
 
-▶️ Frontend (Angular)
+1. **Install Dependencies**
+
+```bash
 cd frontend
 npm install
+```
+
+2. **Configure Environment**
+
+Update `frontend/src/environments/environment.ts`:
+
+```typescript
+export const environment = {
+  production: false,
+  apiUrl: 'http://localhost:8080/api'
+};
+```
+
+3. **Run the Frontend**
+
+```bash
 ng serve -o
+```
 
+Frontend will be available at: `http://localhost:4200`
 
-App → http://localhost:4200
+## 📡 API Documentation
 
-📡 API Endpoints
+### Base URL
+```
+http://localhost:8080/api/menu
+```
 
-Base URL: http://localhost:8080/api/menu
+### Endpoints
 
-Method	Endpoint	Description
-GET	/	Get all menu items
-GET	/{id}	Get menu item by ID
-GET	/search?q=pad	Search menu by name
-POST	/	Add new menu item
-PUT	/{id}	Update menu item
-DELETE	/{id}	Delete menu item
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/` | Get all menu items |
+| `GET` | `/{id}` | Get menu item by ID |
+| `GET` | `/search?q={query}` | Search menu by name |
+| `POST` | `/` | Add new menu item |
+| `PUT` | `/{id}` | Update menu item |
+| `DELETE` | `/{id}` | Delete menu item |
 
-Example POST JSON
+### Example Request/Response
 
+**POST** `/api/menu`
+
+```json
 {
-  "itemName": "Green Curry",
-  "description": "แกงเขียวหวานไก่",
-  "price": 95.00,
+  "itemName": "Pad Thai",
+  "description": "ผัดไทยกุ้งสด Traditional Thai stir-fried noodles",
+  "price": 120.00,
   "imageUrl": null,
   "isAvailable": true
 }
+```
 
-🛠 Tech Stack
+**Response:**
 
-🎨 Frontend: Angular (TypeScript, RxJS, HttpClient)
-
-⚡ Backend: Java 21, Spring Boot 3.5.x, JPA, Hibernate
-
-🗄 Database: MySQL (AWS RDS)
-
-☁️ Cloud: AWS S3 (image storage), CloudFront (CDN)
-
-🔄 CI/CD: GitHub Actions, Docker, Kubernetes/EC2
-
-🚢 Deployment
-
-Frontend → ng build → Deploy to S3 + CloudFront or Nginx
-
-Backend → Build Docker image → Deploy to Kubernetes / ECS / EC2 / Elastic Beanstalk
-
-Database → AWS RDS (Multi-AZ recommended for production)
-
-#⚡️ CI/CD with GitHub Actions
-
-📄 .github/workflows/deploy.yml
-
-name: CI-CD Deploy ThaiFood Web
-
-on:
-  push:
-    branches: [ "main" ]
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      # Build Angular
-      - name: Build Angular Frontend
-        working-directory: ./frontend
-        run: |
-          npm install
-          npm run build --prod
-
-      # Build Spring Boot
-      - name: Build Spring Boot Backend
-        working-directory: ./backend
-        run: |
-          ./mvnw clean package -DskipTests
-
-      # Build Docker Image
-      - name: Build Docker image
-        run: |
-          docker build -t thai-food-app .
-
-      # Push to AWS ECR
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-southeast-1
-
-      - name: Login to Amazon ECR
-        run: |
-          aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin <your_account_id>.dkr.ecr.ap-southeast-1.amazonaws.com
-
-      - name: Push Docker image to ECR
-        run: |
-          docker tag thai-food-app:latest <your_account_id>.dkr.ecr.ap-southeast-1.amazonaws.com/thai-food-app:latest
-          docker push <your_account_id>.dkr.ecr.ap-southeast-1.amazonaws.com/thai-food-app:latest
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to EC2
-        uses: appleboy/ssh-action@v0.1.10
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ubuntu
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            docker pull <your_account_id>.dkr.ecr.ap-southeast-1.amazonaws.com/thai-food-app:latest
-            docker stop thai-food-app || true
-            docker rm thai-food-app || true
-            docker run -d -p 80:8080 --name thai-food-app <your_account_id>.dkr.ecr.ap-southeast-1.amazonaws.com/thai-food-app:latest
-
-  load-test:
-    runs-on: ubuntu-latest
-    needs: deploy
-    steps:
-      - uses: actions/checkout@v3
-      - name: Run k6 Load Test
-        uses: grafana/k6-action@v0.2.0
-        with:
-          filename: k6/load-test.js
-
-#🧪 Load Testing (k6)
-
-📄 k6/load-test.js
-
-import http from "k6/http";
-import { check, sleep } from "k6";
-
-export const options = {
-  vus: 20,           // 20 virtual users
-  duration: "30s",   // run for 30 seconds
-};
-
-export default function () {
-  let res = http.get("http://your-ec2-domain-or-ip/api/menu");
-  check(res, { "status was 200": (r) => r.status === 200 });
-  sleep(1);
+```json
+{
+  "id": 1,
+  "itemName": "Pad Thai",
+  "description": "ผัดไทยกุ้งสด Traditional Thai stir-fried noodles",
+  "price": 120.00,
+  "imageUrl": "https://your-cloudfront-domain.cloudfront.net/images/pad-thai.jpg",
+  "isAvailable": true,
+  "createdAt": "2024-01-15T10:30:00Z",
+  "updatedAt": "2024-01-15T10:30:00Z"
 }
+```
 
+## 🐳 Docker Deployment
 
-#▶️ Run locally:
+### Using Docker Compose
 
+```bash
+docker-compose up -d
+```
+
+### Manual Docker Build
+
+```bash
+# Build the application
+docker build -t thai-food-app .
+
+# Run the container
+docker run -d -p 8080:8080 --name thai-food-app thai-food-app
+```
+
+## ☁️ AWS Deployment
+
+### 1. Database (RDS)
+
+1. Create MySQL RDS instance
+2. Update security group to allow port 3306
+3. Create database: `CREATE DATABASE thai_food;`
+
+### 2. Storage (S3 + CloudFront)
+
+1. Create S3 bucket for food images
+2. Set up CloudFront distribution
+3. Configure CORS policy for S3 bucket
+
+### 3. Application (EC2/ECS)
+
+**Option A: EC2 with Auto Scaling**
+```bash
+# Deploy using GitHub Actions (see .github/workflows/deploy.yml)
+```
+
+**Option B: ECS with Fargate**
+```bash
+# Push to ECR and deploy via ECS service
+```
+
+## 🔄 CI/CD Pipeline
+
+The project includes automated CI/CD with GitHub Actions:
+
+1. **Build**: Compile Angular frontend and Spring Boot backend
+2. **Test**: Run unit tests and integration tests
+3. **Docker**: Build and push Docker image to ECR
+4. **Deploy**: Deploy to EC2 or ECS cluster
+5. **Load Test**: Run k6 performance tests
+
+### Required GitHub Secrets
+
+```bash
+AWS_ACCESS_KEY_ID=your_aws_access_key
+AWS_SECRET_ACCESS_KEY=your_aws_secret_key
+EC2_HOST=your_ec2_public_ip
+EC2_SSH_KEY=your_private_key_content
+```
+
+## 🧪 Load Testing
+
+Run k6 load tests to ensure application performance:
+
+```bash
+# Install k6
+brew install k6  # macOS
+# or
+sudo apt install k6  # Ubuntu
+
+# Run load test
 k6 run k6/load-test.js
+```
 
-🔧 Troubleshooting
+**Load Test Configuration:**
+- 20 virtual users
+- 30 seconds duration
+- Targets `/api/menu` endpoint
 
-🚫 CORS blocked → check CorsConfig.java
+## 🔧 Troubleshooting
 
-🛑 DB connection error → ensure RDS security group allows port 3306
+### Common Issues
 
-❓ Unknown database → manually create thai_food DB in RDS
+| Problem | Solution |
+|---------|----------|
+| **CORS blocked** | Check `CorsConfig.java` in backend |
+| **Database connection error** | Ensure RDS security group allows port 3306 |
+| **Unknown database error** | Manually create `thai_food` database in RDS |
+| **Angular 404 errors** | Verify `environment.ts` points to correct backend API |
+| **S3 upload fails** | Check AWS credentials and S3 bucket permissions |
 
-⚠️ Angular 404 → verify environment.ts points to correct backend API
+### Debug Commands
 
-Unknown database → manually create thai_food DB in RDS
+```bash
+# Check backend logs
+./mvnw spring-boot:run --debug
 
-Angular 404 → verify environment.ts points to correct backend API
+# Check Angular build
+ng build --verbose
+
+# Test API endpoints
+curl http://localhost:8080/api/menu
+
+# Check Docker container logs
+docker logs thai-food-app
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 📞 Support
+
+For support, email your-email@example.com or create an issue in this repository.
+
+---
+
+**Made with ❤️ for Thai food lovers**
