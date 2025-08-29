@@ -1,0 +1,282 @@
+/* --- Global Styles for the entire page --- */
+/* (เหมือนเดิมหรือปรับเล็กน้อย) */
+:host {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+     background: linear-gradient(180deg, #0f0f0f, #040a58); /* ไล่สีสวยๆ */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+}
+
+/* --- Full Page Background (พื้นหลังของทั้งหน้าจอ) --- */
+.full-page-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('./food-background1.png'); /* เปลี่ยนเป็น path รูปหลักของคุณ */
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.9); /* ทำให้ภาพพื้นหลังดูมืดลงเล็กน้อย */
+    z-index: -1; /* วางไว้ด้านหลังสุด */
+}
+
+/* --- Main Container (กล่องสี่เหลี่ยมครอบทั้งหมด) --- */
+.main-container {
+    display: flex; /* ใช้ Flexbox เพื่อแบ่งส่วนซ้าย-ขวา */
+    background-color: #fff; /* สีพื้นหลังของกล่องใหญ่ */
+    border-radius: 20px; /* ขอบโค้งของกล่องใหญ่ */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* เงาของกล่องใหญ่ */
+    overflow: hidden; /* สำคัญเพื่อซ่อนส่วนเกินของรูปภาพหรือเนื้อหา */
+    width: 90%; /* กำหนดความกว้างของกล่องใหญ่ */
+    max-width: 900px; /* จำกัดความกว้างสูงสุด */
+    min-height: 550px; /* กำหนดความสูงขั้นต่ำ */
+    z-index: 1; /* ให้กล่องนี้อยู่เหนือพื้นหลัง */
+}
+
+/* --- Signup Form Section (ส่วนฟอร์ม - ซ้าย) --- */
+.signup-form-section {
+    flex: 1; /* ให้ส่วนนี้ขยายเต็มที่ตามพื้นที่ที่เหลือ */
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; /* จัดกึ่งกลางเนื้อหาฟอร์มภายในส่วนนี้ */
+    box-sizing: border-box;
+    position: relative;
+    background-color: rgba(224, 229, 236, 0.9); /* สีพื้นหลัง Neumorphism สำหรับส่วนฟอร์ม */
+    border-top-left-radius: 20px; /* ขอบโค้งด้านซ้ายบน */
+    border-bottom-left-radius: 20px; /* ขอบโค้งด้านซ้ายล่าง */
+    /* Neumorphism shadow สำหรับส่วนฟอร์ม */
+    box-shadow: inset 5px 5px 10px #a3b1c6,
+                inset -5px -5px 10px #ffffff;
+}
+
+/* ถ้าต้องการพื้นหลังภายในกรอบฟอร์มจริงๆ (ไม่แนะนำถ้ามีพื้นหลังเต็มหน้าอยู่แล้ว) */
+.background-image-form {
+    /* เหมือน background-image ที่เคยมีใน signup-container แต่ควรระวังเรื่อง z-index */
+    /* position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('./another-form-bg.png');
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.7);
+    z-index: -1; */
+    display: none; /* ปกติจะซ่อนไว้ หากใช้ full-page-background */
+}
+
+
+/* --- Signup Image Section (ส่วนรูปภาพ - ขวา) --- */
+.signup-image-section {
+    flex: 1; /* ให้ส่วนนี้ขยายเต็มที่ตามพื้นที่ที่เหลือ */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #0f0f0f, #1fa8cb); /* สี Gradient สวยๆ สำหรับฝั่งรูปภาพ */
+    color: white;
+    padding: 40px;
+    box-sizing: border-box;
+    border-top-right-radius: 20px; /* ขอบโค้งด้านขวาบน */
+    border-bottom-right-radius: 20px; /* ขอบโค้งด้านขวาล่าง */
+    text-align: center;
+}
+
+.signup-image-section img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px; /* อาจจะให้รูปมีขอบโค้งเล็กน้อย */
+    margin-bottom: 20px;
+}
+
+.signup-image-section h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.signup-image-section p {
+    font-size: 16px;
+    line-height: 1.6;
+    opacity: 0.9;
+}
+
+
+/* --- Form & Input Styles (ปรับให้เข้ากับ Neumorphism และโครงสร้างใหม่) --- */
+.signup-form-section h2 { /* ใช้ .signup-form-section เป็นตัวอ้างอิง */
+    font-size: 28px;
+    font-weight: 700;
+    color: #5a677a;
+    margin-bottom: 30px;
+    width: 100%; /* ให้หัวข้อขยายเต็มความกว้าง */
+}
+
+.signup-form-section form {
+    width: 100%; /* ให้ฟอร์มขยายเต็มความกว้างของส่วน */
+    max-width: 320px; /* จำกัดความกว้างของฟอร์มภายใน */
+}
+
+.form-group {
+    margin-bottom: 25px;
+    text-align: left;
+    width: 100%;
+}
+
+.form-group label {
+    display: block;
+    font-size: 16px;
+    color: #6d7c90;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 15px 20px;
+    border: none;
+    outline: none;
+    background: #e0e5ec;
+    border-radius: 10px;
+    font-size: 16px;
+    color: #5a677a;
+    box-sizing: border-box;
+    box-shadow: inset 5px 5px 10px #a3b1c6,
+                inset -5px -5px 10px #ffffff;
+    transition: all 0.2s ease-in-out;
+}
+
+.form-group input:focus {
+    box-shadow: inset 1px 1px 2px #a3b1c6,
+                inset -1px -1px 2px #ffffff;
+    border: 1px solid #c7d2e4;
+}
+
+/* --- Submit Button --- */
+.signup-form-section button[type="submit"] {
+    width: 100%;
+    padding: 15px;
+    margin-top: 20px;
+    background-color: #e0e5ec;
+    color: #5a677a;
+    font-size: 18px;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 5px 5px 10px #a3b1c6,
+                -5px -5px 10px #ffffff;
+    transition: all 0.2s ease-in-out;
+}
+
+.signup-form-section button[type="submit"]:hover {
+    background-color: #d1d9e6;
+}
+
+.signup-form-section button[type="submit"]:active {
+    box-shadow: inset 5px 5px 10px #a3b1c6,
+                inset -5px -5px 10px #ffffff;
+    color: #4a5465;
+}
+
+.signup-form-section button[type="submit"]:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    box-shadow: 2px 2px 5px #a3b1c6,
+                -2px -2px 5px #ffffff;
+}
+
+/* --- Login Link --- */
+.signup-form-section p {
+    margin-top: 25px;
+    font-size: 15px;
+    color: #8b97aa;
+}
+
+.signup-form-section p button {
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 0;
+    transition: text-decoration 0.2s ease;
+}
+
+.signup-form-section p button:hover {
+    text-decoration: underline;
+}
+
+/* --- Error Message for password mismatch --- */
+.error-message {
+    color: #f70820; /* สีแดงสำหรับข้อผิดพลาด */
+    font-size: 0.85rem;
+    margin-top: 5px;
+    text-align: left;
+}
+
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) { /* สำหรับแท็บเล็ตและมือถือ */
+    .main-container {
+        flex-direction: column; /* เปลี่ยนเป็นเรียงจากบนลงล่าง */
+        max-width: 450px; /* ลดความกว้างสูงสุด */
+        min-height: auto; /* ไม่ต้องกำหนด min-height */
+        margin: 20px; /* เพิ่ม margin รอบๆ */
+    }
+
+    .signup-form-section {
+        border-radius: 20px 20px 0 0; /* ขอบโค้งด้านบนเท่านั้น */
+        padding: 30px;
+    }
+
+    .signup-image-section {
+        border-radius: 0 0 20px 20px; /* ขอบโค้งด้านล่างเท่านั้น */
+        padding: 30px;
+    }
+
+    .signup-image-section img {
+        max-height: 200px; /* จำกัดความสูงของรูปบนมือถือ */
+    }
+}
+
+@media (max-width: 480px) { /* สำหรับมือถือขนาดเล็ก */
+    .signup-form-section,
+    .signup-image-section {
+        padding: 20px;
+    }
+
+    .signup-form-section h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        font-size: 14px;
+    }
+
+    .form-group input,
+    .signup-form-section button[type="submit"] {
+        padding: 12px 15px;
+        font-size: 15px;
+    }
+
+    .signup-image-section h3 {
+        font-size: 20px;
+    }
+
+    .signup-image-section p {
+        font-size: 14px;
+    }
+}

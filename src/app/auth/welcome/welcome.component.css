@@ -1,0 +1,81 @@
+/* src/app/auth/welcome/welcome.component.css */
+
+/* คอนเทนเนอร์หลักของหน้า Welcome */
+.welcome-container {
+  display: flex; /* ใช้ Flexbox เพื่อจัดองค์ประกอบให้อยู่กึ่งกลาง */
+  justify-content: center; /* จัดกึ่งกลางแนวนอน */
+  align-items: center; /* จัดกึ่งกลางแนวตั้ง */
+  min-height: 100vh; /* กำหนดความสูงของคอนเทนเนอร์ให้เท่ากับความสูงของ viewport */
+  width: 100vw; /* กำหนดความกว้างของคอนเทนเนอร์ให้เท่ากับความกว้างของ viewport */
+  position: relative; /* กำหนดตำแหน่งเพื่อให้ภาพพื้นหลังอยู่ด้านหลัง */
+  overflow: hidden; /* ซ่อนส่วนเกินของภาพพื้นหลัง */
+  font-family: 'Inter', sans-serif; /* ใช้ฟอนต์ Inter */
+}
+.background-image {
+  position: absolute; /* ตำแหน่งสัมบูรณ์ */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* *** แก้ไขตรงนี้: เปลี่ยนชื่อไฟล์เป็น food-background.png *** */
+  background-image: url('./food-background.png'); /* Path ของรูปภาพ Food2.png ที่อยู่ในโฟลเดอร์เดียวกันกับ welcome.component.css */
+  background-size: cover; /* ปรับขนาดภาพให้ครอบคลุมพื้นที่ทั้งหมด */
+  background-position: center; /* จัดตำแหน่งภาพให้อยู่กึ่งกลาง */
+  filter: brightness(0.6); /* ปรับความสว่างของภาพ (0.6 คือ 60% ของความสว่างเดิม) */
+  z-index: 1; /* กำหนด Layer ให้ภาพอยู่ด้านหลังเนื้อหา */
+}
+
+/* กล่องเนื้อหาหลัก (AWS และปุ่ม) */
+.content-box {
+  position: relative;
+  z-index: 2; /* กำหนด Layer ให้อยู่ด้านหน้าภาพพื้นหลัง */
+  text-align: center;
+  color: white;
+  padding: 60px 80px;
+  border-radius: 15px;
+
+  /* --- ส่วนที่แก้ไขตามคำแนะนำก่อนหน้า --- */
+  background-color: rgba(20, 20, 20, 0.4); /* ลดความทึบลงเหลือ 40% */
+  backdrop-filter: blur(10px); /* ลดความเบลอลงเพื่อให้เห็นพื้นหลังชัดขึ้น */
+  /* --- สิ้นสุดส่วนที่แก้ไข --- */
+
+  border: 1px solid rgba(255, 255, 255, 0.1); /* เพิ่มเส้นขอบบางๆ */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); /* เพิ่มเงาให้กล่อง */
+  animation: slideIn 1s ease-out forwards; /* เพิ่ม Animation */
+}
+
+/* สไตล์สำหรับหัวข้อ AWS */
+.content-box h1 {
+  font-size: 5.5em; /* ขนาดตัวอักษร AWS ที่ใหญ่ขึ้น */
+  margin-bottom: 40px; /* ระยะห่างด้านล่าง */
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.6); /* เพิ่มเงาให้ตัวอักษร AWS */
+  letter-spacing: 0.15em; /* ระยะห่างระหว่างตัวอักษร */
+  font-weight: bold; /* ทำให้ตัวอักษรหนาขึ้น */
+}
+
+/* คอนเทนเนอร์สำหรับปุ่ม */
+.buttons-container {
+  display: flex; /* ใช้ Flexbox เพื่อจัดปุ่มให้อยู่ในแถวเดียวกัน */
+  justify-content: center; /* จัดปุ่มให้อยู่กึ่งกลางแนวนอน */
+  gap: 20px; /* ระยะห่างระหว่างปุ่ม */
+}
+
+/* สไตล์สำหรับปุ่ม Sign Up และ Login */
+.buttons-container button {
+  background-color: rgba(255, 255, 255, 0.9); /* ปุ่มสีขาวโปร่งแสง */
+  color: #333; /* สีข้อความบนปุ่ม */
+  border: none; /* ไม่มีขอบ */
+  padding: 15px 35px; /* Padding ภายในปุ่ม */
+  border-radius: 30px; /* ทำให้ปุ่มมีขอบมนมาก */
+  font-size: 1.25em; /* ขนาดตัวอักษรบนปุ่ม */
+  cursor: pointer; /* เปลี่ยน Cursor เป็น Pointer เมื่อชี้ */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* เพิ่ม Transition เมื่อ Hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* เพิ่มเงาให้ปุ่ม */
+  font-weight: 600; /* ทำให้ตัวอักษรหนาขึ้น */
+}
+
+.buttons-container button:hover {
+  background-color: white; /* เปลี่ยนสีเมื่อ Hover */
+  transform: translateY(-3px); /* ยกปุ่มขึ้นเล็กน้อยเมื่อ Hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* เพิ่มเงาเมื่อ Hover */
+}
