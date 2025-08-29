@@ -1,6 +1,6 @@
-# Thai_food_cloud
 
-🍜 Thai Food Shop Web
+
+#🍜 Thai Food Shop Web
 
 Fullstack Thai food ordering web application
 
@@ -12,7 +12,7 @@ Database: MySQL (AWS RDS)
 
 Storage: AWS S3 + CloudFront CDN
 
-✨ Features
+#✨ Features
 
 ✅ View Thai food menu items
 
@@ -26,7 +26,7 @@ Storage: AWS S3 + CloudFront CDN
 
 ✅ Frontend with Angular
 
-🏗 System Architecture
+#🏗 System Architecture
 
 Frontend → Angular (TypeScript, RxJS, HttpClient)
 
@@ -40,7 +40,7 @@ CDN → CloudFront for global image distribution
 
 Deployment Options → EC2 Auto Scaling Group or ECS Cluster
 
-📂 Project Structure
+#📂 Project Structure
 / (repo root)
 ├── frontend/        # Angular app
 └── backend/         # Spring Boot app
@@ -52,7 +52,7 @@ Deployment Options → EC2 Auto Scaling Group or ECS Cluster
     ├── exception/   # Error handling
     └── resources/application.properties
 
-⚙️ Backend Configuration
+#⚙️ Backend Configuration
 
 📄 backend/src/main/resources/application.properties
 
@@ -64,7 +64,7 @@ spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 
-🚀 Running Locally
+#🚀 Running Locally
 ▶️ Backend (Spring Boot)
 cd backend
 ./mvnw clean package -DskipTests
@@ -123,7 +123,7 @@ Backend → Build Docker image → Deploy to Kubernetes / ECS / EC2 / Elastic Be
 
 Database → AWS RDS (Multi-AZ recommended for production)
 
-⚡️ CI/CD with GitHub Actions
+#⚡️ CI/CD with GitHub Actions
 
 📄 .github/workflows/deploy.yml
 
@@ -200,7 +200,7 @@ jobs:
         with:
           filename: k6/load-test.js
 
-🧪 Load Testing (k6)
+#🧪 Load Testing (k6)
 
 📄 k6/load-test.js
 
@@ -219,7 +219,7 @@ export default function () {
 }
 
 
-▶️ Run locally:
+#▶️ Run locally:
 
 k6 run k6/load-test.js
 
