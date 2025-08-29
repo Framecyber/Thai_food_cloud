@@ -77,8 +77,8 @@ thai-food-web/
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/yourusername/thai-food-cloud.git
-cd thai-food-cloud
+git clone https://github.com/yourusername/Thai_food_cloud.git
+cd Thai_food_cloud
 ```
 
 ### 2. ติดตั้ง Backend (Spring Boot)
