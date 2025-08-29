@@ -2,8 +2,7 @@
 
 แอปพลิเคชันเว็บสำหรับสั่งอาหารไทยแบบ Fullstack พัฒนาด้วย Angular frontend และ Spring Boot backend
 
-[![CI/CD Pipeline](https://github.com/yourusername/thai-food-web/actions/workflows/deploy.yml/badge.svg)](https://github.com/yourusername/thai-food-web/actions/workflows/deploy.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+<img width="1581" height="645" alt="image" src="https://github.com/user-attachments/assets/748ab23c-c50e-4df5-a37b-a3c14da2cef3" />
 
 ## ✨ ฟีเจอร์หลัก
 
