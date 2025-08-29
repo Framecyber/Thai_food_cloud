@@ -45,7 +45,7 @@ thai-food-web/
 │   ├── angular.json
 │   └── package.json
 ├── backend/
-├── src/main/java/com/thaifoodweb
+├── ── src/main/java/com/thaifoodweb
 │   ├── controller/               # REST API endpoints
 │   │   └── FoodController.java
 │   ├── service/                  # Business logic
@@ -59,7 +59,7 @@ thai-food-web/
 │   │   └── SecurityConfig.java
 │   └── exception/                # Custom exception handling
 │       └── ResourceNotFoundException.java
-├── src/main/resources/
+├── ──src/main/resources/
 │   ├── application.properties
 │   └── data.sql                  # Optional: Initial data for the database
 └── pom.xml
