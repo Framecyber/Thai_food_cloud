@@ -44,17 +44,25 @@ thai-food-web/
 │   │   └── environments/
 │   ├── angular.json
 │   └── package.json
-├── backend/                  # แอปพลิเคชัน Spring Boot
-│   ├── src/main/java/
-│   │   ├── controller/       # REST controllers
-│   │   ├── service/         # Business logic
-│   │   ├── repository/      # JPA repositories
-│   │   ├── model/           # Entity classes
-│   │   ├── dto/             # Data transfer objects
-│   │   └── exception/       # การจัดการ Error
-│   ├── src/main/resources/
-│   │   └── application.properties
-│   └── pom.xml
+├── backend/
+├── src/main/java/com/thaifoodweb
+│   ├── controller/               # REST API endpoints
+│   │   └── FoodController.java
+│   ├── service/                  # Business logic
+│   │   └── FoodService.java
+│   ├── repository/               # JPA repositories
+│   │   └── FoodRepository.java
+│   ├── model/                    # JPA entities and DTOs
+│   │   ├── Food.java
+│   │   └── FoodDto.java
+│   ├── security/                 # Security configuration (e.g., Spring Security)
+│   │   └── SecurityConfig.java
+│   └── exception/                # Custom exception handling
+│       └── ResourceNotFoundException.java
+├── src/main/resources/
+│   ├── application.properties
+│   └── data.sql                  # Optional: Initial data for the database
+└── pom.xml
 ├── k6/                      # สคริปต์ Load testing
 │   └── load-test.js
 ├── .github/workflows/       # CI/CD pipeline
