@@ -175,23 +175,6 @@ RESTful API สำหรับจัดการเมนู ออเดอร�
   "imageUrl": null,
   "isAvailable": true
 }
-
-## 🐳 การ Deploy ด้วย Docker
-
-### ใช้ Docker Compose
-
-```bash
-docker-compose up -d
-```
-
-### สร้าง Docker แบบ Manual
-
-```bash
-# Build แอปพลิเคชัน
-docker build -t thai-food-app .
-
-# รัน Container
-docker run -d -p 8080:8080 --name thai-food-app thai-food-app
 ```
 
 ## ☁️ การ Deploy บน AWS
