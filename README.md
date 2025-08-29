@@ -1,23 +1,23 @@
-# 🍜 Thai Food Shop Web
+# 🍜 เว็บไซต์ร้านอาหารไทย
 
-A fullstack Thai food ordering web application built with Angular frontend and Spring Boot backend.
+แอปพลิเคชันเว็บสำหรับสั่งอาหารไทยแบบ Fullstack พัฒนาด้วย Angular frontend และ Spring Boot backend
 
 [![CI/CD Pipeline](https://github.com/yourusername/thai-food-web/actions/workflows/deploy.yml/badge.svg)](https://github.com/yourusername/thai-food-web/actions/workflows/deploy.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## ✨ Features
+## ✨ ฟีเจอร์หลัก
 
-- ✅ View Thai food menu items with beautiful UI
-- ✅ Search menu by name with real-time filtering
-- ✅ Full CRUD operations (Add/Edit/Delete) for menu items
-- ✅ Image upload and storage on AWS S3 with CloudFront CDN
-- ✅ Responsive design for mobile and desktop
-- ✅ RESTful API with Spring Boot backend
-- ✅ MySQL database with AWS RDS hosting
-- ✅ CI/CD pipeline with GitHub Actions
-- ✅ Load testing with k6
+- ✅ ดูเมนูอาหารไทยด้วย UI ที่สวยงาม
+- ✅ ค้นหาเมนูด้วยชื่อแบบ Real-time
+- ✅ จัดการเมนูแบบเต็มรูปแบบ (เพิ่ม/แก้ไข/ลบ)
+- ✅ อัปโหลดรูปภาพและเก็บบน AWS S3 พร้อม CloudFront CDN
+- ✅ รองรับการใช้งานบนมือถือและคอมพิวเตอร์
+- ✅ RESTful API ด้วย Spring Boot backend
+- ✅ ฐานข้อมูล MySQL บน AWS RDS
+- ✅ CI/CD pipeline ด้วย GitHub Actions
+- ✅ Load testing ด้วย k6
 
-## 🏗️ System Architecture
+## 🏗️ สถาปัตยกรรมระบบ
 
 ```
 Frontend (Angular) ←→ Backend (Spring Boot) ←→ Database (MySQL/RDS)
@@ -25,37 +25,37 @@ Frontend (Angular) ←→ Backend (Spring Boot) ←→ Database (MySQL/RDS)
                          AWS S3 + CloudFront
 ```
 
-**Tech Stack:**
+**เทคโนโลยีที่ใช้:**
 - **Frontend**: Angular (TypeScript, RxJS, HttpClient)
 - **Backend**: Spring Boot (Java 21, Spring Web, Spring Data JPA)
 - **Database**: MySQL (AWS RDS)
-- **Storage**: AWS S3 for food images
-- **CDN**: CloudFront for global image distribution
-- **Deployment**: EC2 Auto Scaling Group or ECS Cluster
+- **Storage**: AWS S3 สำหรับเก็บรูปภาพอาหาร
+- **CDN**: CloudFront สำหรับการกระจายรูปภาพทั่วโลก
+- **Deployment**: EC2 Auto Scaling Group หรือ ECS Cluster
 
-## 📂 Project Structure
+## 📂 โครงสร้างโปรเจค
 
 ```
 thai-food-web/
-├── frontend/                 # Angular application
+├── frontend/                 # แอปพลิเคชัน Angular
 │   ├── src/
 │   │   ├── app/
 │   │   ├── assets/
 │   │   └── environments/
 │   ├── angular.json
 │   └── package.json
-├── backend/                  # Spring Boot application
+├── backend/                  # แอปพลิเคชัน Spring Boot
 │   ├── src/main/java/
 │   │   ├── controller/       # REST controllers
 │   │   ├── service/         # Business logic
 │   │   ├── repository/      # JPA repositories
 │   │   ├── model/           # Entity classes
 │   │   ├── dto/             # Data transfer objects
-│   │   └── exception/       # Error handling
+│   │   └── exception/       # การจัดการ Error
 │   ├── src/main/resources/
 │   │   └── application.properties
 │   └── pom.xml
-├── k6/                      # Load testing scripts
+├── k6/                      # สคริปต์ Load testing
 │   └── load-test.js
 ├── .github/workflows/       # CI/CD pipeline
 │   └── deploy.yml
@@ -64,27 +64,27 @@ thai-food-web/
 └── README.md
 ```
 
-## 🚀 Quick Start
+## 🚀 เริ่มต้นใช้งาน
 
-### Prerequisites
+### ความต้องการเบื้องต้น
 
-- **Java 21** or higher
-- **Node.js 18+** and npm
-- **MySQL 8.0+** or AWS RDS instance
-- **AWS Account** (for S3 and CloudFront)
+- **Java 21** ขึ้นไป
+- **Node.js 18+** และ npm
+- **MySQL 8.0+** หรือ AWS RDS instance
+- **บัญชี AWS** (สำหรับ S3 และ CloudFront)
 
-### 1. Clone the Repository
+### 1. Clone Repository
 
 ```bash
 git clone https://github.com/yourusername/thai-food-web.git
 cd thai-food-web
 ```
 
-### 2. Backend Setup (Spring Boot)
+### 2. ติดตั้ง Backend (Spring Boot)
 
-1. **Configure Database**
+1. **กำหนดค่าฐานข้อมูล**
 
-Create `backend/src/main/resources/application.properties`:
+สร้างไฟล์ `backend/src/main/resources/application.properties`:
 
 ```properties
 server.port=8080
@@ -95,13 +95,13 @@ spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 
-# AWS S3 Configuration (Optional)
+# การกำหนดค่า AWS S3 (ตัวเลือก)
 aws.s3.bucket=your-s3-bucket-name
 aws.s3.region=ap-southeast-1
 aws.cloudfront.domain=your-cloudfront-domain.cloudfront.net
 ```
 
-2. **Run the Backend**
+2. **รัน Backend**
 
 ```bash
 cd backend
@@ -109,20 +109,20 @@ cd backend
 ./mvnw spring-boot:run
 ```
 
-Backend API will be available at: `http://localhost:8080/api/menu`
+Backend API จะพร้อมใช้งานที่: `http://localhost:8080/api/menu`
 
-### 3. Frontend Setup (Angular)
+### 3. ติดตั้ง Frontend (Angular)
 
-1. **Install Dependencies**
+1. **ติดตั้ง Dependencies**
 
 ```bash
 cd frontend
 npm install
 ```
 
-2. **Configure Environment**
+2. **กำหนดค่า Environment**
 
-Update `frontend/src/environments/environment.ts`:
+อัปเดทไฟล์ `frontend/src/environments/environment.ts`:
 
 ```typescript
 export const environment = {
@@ -131,15 +131,15 @@ export const environment = {
 };
 ```
 
-3. **Run the Frontend**
+3. **รัน Frontend**
 
 ```bash
 ng serve -o
 ```
 
-Frontend will be available at: `http://localhost:4200`
+Frontend จะพร้อมใช้งานที่: `http://localhost:4200`
 
-## 📡 API Documentation
+## 📡 เอกสาร API
 
 ### Base URL
 ```
@@ -148,23 +148,23 @@ http://localhost:8080/api/menu
 
 ### Endpoints
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `GET` | `/` | Get all menu items |
-| `GET` | `/{id}` | Get menu item by ID |
-| `GET` | `/search?q={query}` | Search menu by name |
-| `POST` | `/` | Add new menu item |
-| `PUT` | `/{id}` | Update menu item |
-| `DELETE` | `/{id}` | Delete menu item |
+| Method | Endpoint | คำอธิบาย |
+|--------|----------|----------|
+| `GET` | `/` | ดึงข้อมูลเมนูทั้งหมด |
+| `GET` | `/{id}` | ดึงข้อมูลเมนูตาม ID |
+| `GET` | `/search?q={query}` | ค้นหาเมนูตามชื่อ |
+| `POST` | `/` | เพิ่มเมนูใหม่ |
+| `PUT` | `/{id}` | แก้ไขเมนู |
+| `DELETE` | `/{id}` | ลบเมนู |
 
-### Example Request/Response
+### ตัวอย่าง Request/Response
 
 **POST** `/api/menu`
 
 ```json
 {
-  "itemName": "Pad Thai",
-  "description": "ผัดไทยกุ้งสด Traditional Thai stir-fried noodles",
+  "itemName": "ผัดไทย",
+  "description": "ผัดไทยกุ้งสด เส้นจันท์ผัดตามแบบดั้งเดิม",
   "price": 120.00,
   "imageUrl": null,
   "isAvailable": true
@@ -176,8 +176,8 @@ http://localhost:8080/api/menu
 ```json
 {
   "id": 1,
-  "itemName": "Pad Thai",
-  "description": "ผัดไทยกุ้งสด Traditional Thai stir-fried noodles",
+  "itemName": "ผัดไทย",
+  "description": "ผัดไทยกุ้งสด เส้นจันท์ผัดตามแบบดั้งเดิม",
   "price": 120.00,
   "imageUrl": "https://your-cloudfront-domain.cloudfront.net/images/pad-thai.jpg",
   "isAvailable": true,
@@ -186,61 +186,61 @@ http://localhost:8080/api/menu
 }
 ```
 
-## 🐳 Docker Deployment
+## 🐳 การ Deploy ด้วย Docker
 
-### Using Docker Compose
+### ใช้ Docker Compose
 
 ```bash
 docker-compose up -d
 ```
 
-### Manual Docker Build
+### สร้าง Docker แบบ Manual
 
 ```bash
-# Build the application
+# Build แอปพลิเคชัน
 docker build -t thai-food-app .
 
-# Run the container
+# รัน Container
 docker run -d -p 8080:8080 --name thai-food-app thai-food-app
 ```
 
-## ☁️ AWS Deployment
+## ☁️ การ Deploy บน AWS
 
-### 1. Database (RDS)
+### 1. ฐานข้อมูล (RDS)
 
-1. Create MySQL RDS instance
-2. Update security group to allow port 3306
-3. Create database: `CREATE DATABASE thai_food;`
+1. สร้าง MySQL RDS instance
+2. อัปเดท security group ให้อนุญาต port 3306
+3. สร้างฐานข้อมูล: `CREATE DATABASE thai_food;`
 
 ### 2. Storage (S3 + CloudFront)
 
-1. Create S3 bucket for food images
-2. Set up CloudFront distribution
-3. Configure CORS policy for S3 bucket
+1. สร้าง S3 bucket สำหรับเก็บรูปภาพอาหาร
+2. ตั้งค่า CloudFront distribution
+3. กำหนดค่า CORS policy สำหรับ S3 bucket
 
-### 3. Application (EC2/ECS)
+### 3. แอปพลิเคชัน (EC2/ECS)
 
-**Option A: EC2 with Auto Scaling**
+**ตัวเลือก A: EC2 พร้อม Auto Scaling**
 ```bash
-# Deploy using GitHub Actions (see .github/workflows/deploy.yml)
+# Deploy ผ่าน GitHub Actions (ดู .github/workflows/deploy.yml)
 ```
 
-**Option B: ECS with Fargate**
+**ตัวเลือก B: ECS พร้อม Fargate**
 ```bash
-# Push to ECR and deploy via ECS service
+# Push ไป ECR และ deploy ผ่าน ECS service
 ```
 
 ## 🔄 CI/CD Pipeline
 
-The project includes automated CI/CD with GitHub Actions:
+โปรเจคมี CI/CD อัตโนมัติด้วย GitHub Actions:
 
-1. **Build**: Compile Angular frontend and Spring Boot backend
-2. **Test**: Run unit tests and integration tests
-3. **Docker**: Build and push Docker image to ECR
-4. **Deploy**: Deploy to EC2 or ECS cluster
-5. **Load Test**: Run k6 performance tests
+1. **Build**: คอมไพล์ Angular frontend และ Spring Boot backend
+2. **Test**: รันการทดสอบ unit tests และ integration tests
+3. **Docker**: สร้างและ push Docker image ไป ECR
+4. **Deploy**: Deploy ไป EC2 หรือ ECS cluster
+5. **Load Test**: รันการทดสอบประสิทธิภาพด้วย k6
 
-### Required GitHub Secrets
+### GitHub Secrets ที่จำเป็น
 
 ```bash
 AWS_ACCESS_KEY_ID=your_aws_access_key
@@ -251,67 +251,95 @@ EC2_SSH_KEY=your_private_key_content
 
 ## 🧪 Load Testing
 
-Run k6 load tests to ensure application performance:
+รัน k6 load tests เพื่อให้มั่นใจในประสิทธิภาพของแอปพลิเคชัน:
 
 ```bash
-# Install k6
+# ติดตั้ง k6
 brew install k6  # macOS
-# or
+# หรือ
 sudo apt install k6  # Ubuntu
 
-# Run load test
+# รัน load test
 k6 run k6/load-test.js
 ```
 
-**Load Test Configuration:**
+**การกำหนดค่า Load Test:**
 - 20 virtual users
-- 30 seconds duration
-- Targets `/api/menu` endpoint
+- ระยะเวลา 30 วินาที
+- เทสต์ endpoint `/api/menu`
 
-## 🔧 Troubleshooting
+## 🔧 การแก้ไขปัญหา
 
-### Common Issues
+### ปัญหาที่พบบ่อย
 
-| Problem | Solution |
-|---------|----------|
-| **CORS blocked** | Check `CorsConfig.java` in backend |
-| **Database connection error** | Ensure RDS security group allows port 3306 |
-| **Unknown database error** | Manually create `thai_food` database in RDS |
-| **Angular 404 errors** | Verify `environment.ts` points to correct backend API |
-| **S3 upload fails** | Check AWS credentials and S3 bucket permissions |
+| ปัญหา | วิธีแก้ไข |
+|-------|----------|
+| **CORS ถูกบล็อค** | ตรวจสอบ `CorsConfig.java` ใน backend |
+| **เชื่อมต่อฐานข้อมูลไม่ได้** | ตรวจสอบว่า RDS security group อนุญาต port 3306 |
+| **ไม่พบฐานข้อมูล** | สร้างฐานข้อมูล `thai_food` ใน RDS ด้วยตนเอง |
+| **Angular เกิด 404 error** | ตรวจสอบว่า `environment.ts` ชี้ไป backend API ที่ถูกต้อง |
+| **อัปโหลด S3 ไม่สำเร็จ** | ตรวจสอบ AWS credentials และสิทธิ์ของ S3 bucket |
 
-### Debug Commands
+### คำสั่งสำหรับ Debug
 
 ```bash
-# Check backend logs
+# ตรวจสอบ backend logs
 ./mvnw spring-boot:run --debug
 
-# Check Angular build
+# ตรวจสอบ Angular build
 ng build --verbose
 
-# Test API endpoints
+# ทดสอบ API endpoints
 curl http://localhost:8080/api/menu
 
-# Check Docker container logs
+# ตรวจสอบ Docker container logs
 docker logs thai-food-app
 ```
 
-## 🤝 Contributing
+## 🤝 การมีส่วนร่วม
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+1. Fork repository นี้
+2. สร้าง feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit การเปลี่ยนแปลง (`git commit -m 'Add some amazing feature'`)
+4. Push ไป branch (`git push origin feature/amazing-feature`)
+5. เปิด Pull Request
 
-## 📝 License
+## 📋 ตัวอย่างเมนูอาหารไทย
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+| ชื่อเมนู | ราคา | คำอธิบาย |
+|---------|------|----------|
+| ผัดไทย | ฿120 | เส้นจันท์ผัดกุ้งสด รสชาติดั้งเดิม |
+| แกงเขียวหวานไก่ | ฿95 | แกงเขียวหวานไก่สูตรโบราณ |
+| ส้มตำไทย | ฿80 | ส้มตำใส่ถั่วฝักยาว มะเขือเทศ |
+| ต้มยำกุ้ง | ฿150 | ต้มยำกุ้งน้ำใส รสเปรี้ยวจี๊ด |
+| ข้าวผัดกุ้ง | ฿110 | ข้าวผัดกุ้งสับปะรด |
+| มะม่วงข้าวเหนียว | ฿85 | ขนมหวานไทยคลาสสิค |
 
-## 📞 Support
+## 📝 ไลเซนส์
 
-For support, email your-email@example.com or create an issue in this repository.
+โปรเจคนี้อยู่ภายใต้ MIT License - ดูไฟล์ [LICENSE](LICENSE) สำหรับรายละเอียด
+
+## 📞 ติดต่อสนับสนุน
+
+สำหรับการสนับสนุน ติดต่อ your-email@example.com หรือสร้าง issue ใน repository นี้
+
+## 🌟 Contributors
+
+ขอบคุณผู้ที่มีส่วนร่วมในโปรเจคนี้:
+
+- [@yourusername](https://github.com/yourusername) - ผู้พัฒนาหลัก
+- [@contributor1](https://github.com/contributor1) - Frontend Developer
+- [@contributor2](https://github.com/contributor2) - Backend Developer
+
+## 📊 สถิติการใช้งาน
+
+- ⭐ Stars: ![GitHub Repo stars](https://img.shields.io/github/stars/yourusername/thai-food-web)
+- 🍴 Forks: ![GitHub forks](https://img.shields.io/github/forks/yourusername/thai-food-web)
+- 🐛 Issues: ![GitHub issues](https://img.shields.io/github/issues/yourusername/thai-food-web)
+- 📦 Version: ![GitHub package.json version](https://img.shields.io/github/package-json/v/yourusername/thai-food-web)
 
 ---
 
-**Made with ❤️ for Thai food lovers**
+**สร้างด้วย ❤️ สำหรับคนรักอาหารไทย**
+
+*อย่าลืม Star ⭐ ถ้าคุณชอบโปรเจคนี้นะครับ!*
