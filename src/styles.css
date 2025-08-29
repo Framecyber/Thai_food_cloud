@@ -1,0 +1,63 @@
+/* ========== Global styles (src/styles.css) ========== */
+
+/* 1) โหลดฟอนต์ Noto Sans Thai จาก Google Fonts (อย่าใส่ในไฟล์ component) */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600;700&display=swap');
+
+/* 2) รีเซ็ต + กล่องคิดขอบแบบรวม */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* 3) ธีมพื้นฐาน */
+:root {
+  --bg: #FCF7EC;         /* สีพื้นหลัง */
+  --text: #111827;       /* สีตัวอักษร */
+  --text-dim: #374151;   /* สีตัวอักษรรอง */
+}
+
+/* 4) ตัวอักษร + สี + พื้นหลังทั้งแอป */
+body {
+  font-family: "Noto Sans Thai", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 5) ให้ app-root โปร่งใสและสูงเต็มหน้าจอ */
+app-root {
+  display: block;
+  min-height: 100%;
+  background: transparent;
+}
+
+/* 6) องค์ประกอบทั่วไป */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+}
+
+input, button, textarea, select {
+  font: inherit; /* ใช้ฟอนต์เดียวกับ body */
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+:focus-visible {
+  outline: 2px solid #2563EB; /* โฟกัสชัดเจนขึ้น */
+  outline-offset: 2px;
+}

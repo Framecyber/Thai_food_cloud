@@ -1,0 +1,176 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600;700&display=swap');
+
+/* ================= THEME ================= */
+:root{
+  --bg:#FFF8F0; --card:#fff; --text:#2e2a27; --muted:#6b5e57;
+
+  /* Accent ใหม่ (น้ำเงิน) สำหรับปุ่มหลักให้ตัดกับพื้นหลัง */
+  --accent:#2563eb;        /* blue-600 */
+  --accent-600:#1d4ed8;    /* blue-700 */
+  --accent-700:#1e40af;    /* blue-800 */
+  --accent-100:#dbeafe;    /* blue-100 (ใช้เป็นเส้นใต้ tab active) */
+
+  /* สีปุ่มกรอง (ไม่ใช่สีขาว) */
+  --filter-bg:#eef2ff;     /* indigo-100 อ่อน ๆ */
+  --filter-border:#c7d2fe; /* indigo-200 */
+
+  --line:#eee6de;
+  --shadow:0 6px 18px rgba(0,0,0,.06);
+  --shadow-lg:0 12px 28px rgba(0,0,0,.12);
+}
+
+*{ box-sizing:border-box; }
+html,body{ background:var(--bg); color:var(--text); }
+body,input,button{ font-family:"Noto Sans Thai",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial; }
+
+/* ================= Header ================= */
+.menu-container{ position:relative; }
+.header-container{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; }
+.header-container h2{ font-weight:700; }
+.header-right{ display:flex; align-items:center; gap:10px; }
+.search-container{ position:relative; display:flex; align-items:center; }
+.search-container input{
+  padding:10px 32px 10px 12px; border-radius:999px; border:1px solid var(--line); background:#fff;
+}
+.search-container input:focus{ outline:2px solid var(--accent-100); border-color:var(--accent); }
+.search-icon{ position:absolute; right:10px; pointer-events:none; }
+
+/* ================= Filters (Pills) ================= */
+.menu-filters{ display:flex; flex-wrap:wrap; gap:8px; margin:8px 0 16px; }
+.menu-filters button{
+  border:1px solid var(--filter-border) !important;
+  background:var(--filter-bg) !important;
+  color:var(--text) !important;
+  padding:8px 14px; border-radius:999px; cursor:pointer; transition:.18s ease;
+}
+.menu-filters button:hover{ border-color:var(--accent) !important; box-shadow:0 2px 10px rgba(0,0,0,.06); }
+.menu-filters button.active{
+  background:var(--accent) !important; color:#fff !important; border-color:var(--accent) !important; position:relative;
+}
+.menu-filters button.active::after{
+  content:""; position:absolute; left:16px; right:16px; bottom:-6px; height:3px; border-radius:2px; background:var(--accent-100);
+}
+
+/* ================= Grid ================= */
+.menu-grid{ display:grid !important; grid-template-columns:repeat(3,minmax(0,1fr)) !important; gap:16px !important; }
+@media (max-width:1199px){ .menu-grid{ grid-template-columns:repeat(2,minmax(0,1fr)) !important; } }
+@media (max-width:640px){ .menu-grid{ grid-template-columns:1fr !important; } }
+
+.menu-card{
+  background:var(--card) !important; border-radius:16px !important; overflow:hidden !important;
+  box-shadow:var(--shadow) !important; display:flex !important; flex-direction:column !important;
+  transition:transform .18s, box-shadow .18s;
+}
+.menu-card:hover{ transform:translateY(-2px); box-shadow:var(--shadow-lg); }
+
+.media-wrap{ position:relative; }
+.menu-item-image{
+  display:block !important; width:100% !important; height:180px !important; object-fit:cover !important;
+  border-bottom-left-radius:12px; border-bottom-right-radius:12px;
+}
+
+.card-body{ padding:14px; display:flex; flex-direction:column; gap:8px; }
+.title{ margin:0; font-size:1.05rem; font-weight:700; }
+.description{ margin:0; color:var(--muted); line-height:1.5; }
+
+.price-row{ position:relative; display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:6px; z-index:0; }
+.price{ font-weight:700; }
+
+/* ================= Add-to-cart Button (FINAL FIX) ================= */
+/* ใช้ Selector ที่เฉพาะเจาะจงสูงมาก และ !important 
+  เพื่อบังคับให้ชนะสไตล์อื่นทั้งหมดที่อาจเขียนทับอยู่ 
+*/
+.menu-grid .menu-card .card-body .price-row button.add-btn[type="button"] {
+  all: unset !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  background: #2563eb !important;  /* <-- บังคับสีพื้นหลัง */
+  color: #ffffff !important;         /* <-- บังคับสีตัวอักษร */
+  border: 1px solid #2563eb !important; /* <-- บังคับสีขอบ */
+  border-radius: 12px !important;
+  padding: 10px 12px !important;
+  min-width: 170px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  line-height: 1 !important;
+  pointer-events: auto !important;
+  z-index: 1 !important;
+  user-select: none !important;
+  transition: all .18s ease !important;
+}
+
+.menu-grid .menu-card .card-body .price-row button.add-btn[type="button"]:hover {
+  background: #1d4ed8 !important; /* สีเข้มขึ้นเมื่อโฮเวอร์ */
+  border-color: #1d4ed8 !important;
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.25) !important;
+}
+
+.menu-grid .menu-card .card-body .price-row button.add-btn[type="button"]:active {
+  transform: translateY(1px) scale(.99) !important;
+}
+
+
+/* ================= Cart Icon ================= */
+.cart-button{
+  position:relative; display:inline-flex; align-items:center; justify-content:center;
+  width:44px; height:44px; border-radius:12px; border:1px solid #e6e6e6; background:#fff; font-size:20px; cursor:pointer; transition:.18s;
+}
+.cart-button:hover{ border-color:var(--accent); box-shadow:0 6px 16px rgba(0,0,0,.08); }
+.cart-badge{
+  position:absolute; top:-6px; right:-6px; min-width:18px; height:18px; padding:0 5px;
+  background:#e53935; color:#fff; border-radius:999px; font-size:12px; line-height:18px; text-align:center; font-weight:700;
+}
+
+/* ================= Drawer ================= */
+.cart-overlay{ position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:90; }
+.cart-drawer{
+  position:fixed; top:0; right:0; height:100vh; width:420px; max-width:96vw;
+  background:#fff; box-shadow:-10px 0 30px rgba(0,0,0,.2); z-index:99; display:flex; flex-direction:column;
+}
+@media (max-width:1024px){ .cart-drawer{ width:100vw; } }
+.cart-header{ display:flex; justify-content:space-between; align-items:center; padding:14px 16px; border-bottom:1px solid var(--line); }
+.icon-btn{ background:transparent; border:none; font-size:20px; cursor:pointer; }
+.cart-body{ padding:12px 16px; overflow:auto; }
+
+/* ================= Lines ================= */
+.line{ display:grid; grid-template-columns:1fr auto auto auto; gap:8px; align-items:center; padding:6px 0; }
+.line-name{ font-weight:600; }
+.line-actions{ display:inline-flex; align-items:center; gap:6px; }
+.line-actions button{ width:30px; height:30px; border-radius:8px; border:1px solid var(--line); background:#fff; cursor:pointer; }
+.line-actions button:hover{ border-color:var(--accent); }
+.line-actions .qty{ display:inline-block; min-width:24px; text-align:center; }
+.line-total{ min-width:120px; text-align:right; font-weight:600; }
+.remove{ background:transparent; color:#c00; border:none; cursor:pointer; }
+
+/* ================= Collapsible & Totals ================= */
+.collapsible{ margin:10px 0 14px; }
+.collapse-toggle{
+  width:100%; text-align:left; background:#fff; border:1px solid var(--line);
+  padding:10px 12px; border-radius:10px; cursor:pointer; font-weight:600;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.collapse-toggle:hover{ border-color:var(--accent); }
+.chev{ transition:transform .15s; } .chev.up{ transform:rotate(180deg); }
+
+.options{ display:grid; gap:8px; margin:10px 0 0; }
+.options label{ display:flex; justify-content:space-between; gap:8px; align-items:center; }
+.options input{ width:140px; text-align:right; padding:8px 10px; border-radius:8px; border:1px solid var(--line); }
+
+.totals{ margin-top:10px; }
+.totals .row{ display:flex; justify-content:space-between; margin:6px 0; }
+.totals .grand{ font-weight:800; font-size:1.05rem; border-top:1px dashed #ddd; padding-top:8px; color:var(--accent-700); }
+
+/* ================= Misc ================= */
+.empty{ padding:24px; text-align:center; color:#777; }
+.no-items-message{
+  grid-column:1 / -1; text-align:center; color:var(--muted); background:#fff;
+  border:1px dashed var(--line); border-radius:12px; padding:18px;
+}
+
+/* ================= Print ================= */
+@media print{
+  .cart-overlay, .menu-filters, .header-right, .layout, .icon-btn, .actions{ display:none !important; }
+  .cart-drawer{ position:static; height:auto; width:100%; box-shadow:none; }
+}
