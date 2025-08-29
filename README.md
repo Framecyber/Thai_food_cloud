@@ -37,31 +37,31 @@ Frontend (Angular) ←→ Backend (Spring Boot) ←→ Database (MySQL/RDS)
 
 ```
 thai-food-web/
-├── frontend/                 # แอปพลิเคชัน Angular
+├── frontend/                     # แอปพลิเคชัน Angular
 │   ├── src/
 │   │   ├── app/
+│   │   │   ├── auth/             # ส่วนที่จัดการการเข้าสู่ระบบ/สมัครสมาชิก
+│   │   │   │   ├── login/
+│   │   │   │   ├── signup/
+│   │   │   │   └── auth-routing.module.ts
+│   │   │   ├── pages/            # หน้าเว็บหลักของแอปพลิเคชัน
+│   │   │   ├── app-routing.module.ts
+│   │   │   └── app.module.ts
 │   │   ├── assets/
 │   │   └── environments/
 │   ├── angular.json
 │   └── package.json
-├── backend/
-├── ── src/main/java/com/thaifoodweb
-│   ├── controller/               # REST API endpoints
-│   │   └── FoodController.java
-│   ├── service/                  # Business logic
-│   │   └── FoodService.java
-│   ├── repository/               # JPA repositories
-│   │   └── FoodRepository.java
-│   ├── model/                    # JPA entities and DTOs
-│   │   ├── Food.java
-│   │   └── FoodDto.java
-│   ├── security/                 # Security configuration (e.g., Spring Security)
-│   │   └── SecurityConfig.java
-│   └── exception/                # Custom exception handling
-│       └── ResourceNotFoundException.java
-├── ──src/main/resources/
+└── backend/                      # แอปพลิเคชัน Spring Boot
+├── src/main/java/com/thaifoodweb
+│   ├── controller/           # REST API endpoints
+│   ├── service/              # Business logic
+│   ├── repository/           # JPA repositories
+│   ├── model/                # JPA entities and DTOs
+│   ├── security/             # Security configuration (e.g., Spring Security)
+│   └── exception/            # Custom exception handling
+├── src/main/resources/
 │   ├── application.properties
-│   └── data.sql                  # Optional: Initial data for the database
+│   └── data.sql              # Optional: Initial data for the database
 └── pom.xml
 ├── k6/                      # สคริปต์ Load testing
 │   └── load-test.js
